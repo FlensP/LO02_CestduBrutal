@@ -13,22 +13,23 @@ public enum Area {
 
     private Player controller = null;
 
-    public void setController(Player controller) {
-        this.controller = controller;
-    }
-
     public Player getController() {
         return controller;
+    }
+
+    public void setController(Player controller) {
+        this.controller = controller;
     }
 
     public ArrayList<Student> getStudents() {
         return students;
     }
 
-    public void removeStudent(Student student){
+    public void removeStudent(Student student) {
         students.remove(student);
     }
-    public void addStudent(Student student){
+
+    public void addStudent(Student student) {
         students.add(student);
     }
 }

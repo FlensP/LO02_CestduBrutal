@@ -16,4 +16,16 @@ public class Player {
     public Program getProgram() {
         return program;
     }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public void addStudent(Student student){
+        students.add(student);
+    }
+
+    public void removeStudent(Student student){
+        students.remove(student);
+    }
 }
