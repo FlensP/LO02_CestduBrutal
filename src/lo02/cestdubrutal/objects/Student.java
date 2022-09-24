@@ -64,6 +64,7 @@ public class Student {
         getArea().removeStudent(this);
     }
 
+
     public Player getPlayer() {
         return player;
     }
