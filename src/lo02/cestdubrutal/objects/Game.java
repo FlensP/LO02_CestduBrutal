@@ -1,5 +1,6 @@
 package lo02.cestdubrutal.objects;
 
+import lo02.cestdubrutal.Main;
 import lo02.cestdubrutal.enums.Area;
 import lo02.cestdubrutal.enums.StateGame;
 
@@ -13,9 +14,12 @@ public class Game {
     private Player player1;
     private Player player2;
 
-
+    public Game(){
+        init();
+        Main.getInstance().getDisplay().displayMessage("Coucou");
+    }
     public void init(){
-        
+        setState(StateGame.Configuration);
     }
 
 

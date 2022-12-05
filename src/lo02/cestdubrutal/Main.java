@@ -6,9 +6,11 @@ public class Main {
 
     private static Main instance;
     private Game game;
+    private Display display;
 
     public static void main(String[] args) {
         getInstance().setGame(new Game());
+        getInstance().setDisplay(new TextDisplay());
     }
 
     private Main() {
@@ -28,5 +30,13 @@ public class Main {
 
     public Game getGame() {
         return game;
+    }
+
+    public void setDisplay(Display display) {
+        this.display = display;
+    }
+
+    public Display getDisplay() {
+        return display;
     }
 }
