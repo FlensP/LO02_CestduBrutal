@@ -21,7 +21,7 @@ public class Player {
     public void studentSetting(Student student, ArrayList<Integer> pointsGiven) {
         int sumPointsGiven = pointsGiven.stream().mapToInt(Integer::intValue).sum();
         if (sumPointsGiven <= pointsLeft) {
-            Student stu = students.stream().filter(s -> equals(student)).toList().get(0); //pour être sur que l'élève est de notre équipe
+            Student stu = students.stream().filter(s -> s.equals(student)).toList().get(0); //pour être sur que l'élève est de notre équipe
             stu.setStrength(stu.getStrength() + pointsGiven.get(0));
             stu.setDexterity(stu.getDexterity() + pointsGiven.get(1));
             stu.setResistance(stu.getResistance() + pointsGiven.get(2));

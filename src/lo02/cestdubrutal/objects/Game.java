@@ -5,12 +5,19 @@ import lo02.cestdubrutal.enums.StateGame;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Random;
 
 public class Game {
 
     private StateGame state;
     private Player player1;
     private Player player2;
+
+
+    public void init(){
+        
+    }
+
 
     public void pointAllocation(Player player) {
         player.setPointsLeft(400);
@@ -40,8 +47,7 @@ public class Game {
                 area.setController(playerTroop2.get(0).getPlayer());
             }
 
-            //todo faire une fonction random en boolean
-            boolean isDefensive = true;
+            boolean isDefensive = new Random().nextBoolean();
 
             switch (fighters.get(0).getStrategy()) {
                 case Defensive -> fighters.get(0).heal();
