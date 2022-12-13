@@ -32,5 +32,27 @@ public enum Area {
     public void addStudent(Student student) {
         students.add(student);
     }
+
+    @Override
+    public String toString() {
+        switch (this){
+            case Library -> {
+                return "Bibliotheque";
+            }
+            case SportsHall -> {
+                return "Halle Sportive";
+            }
+            case StudentOffice -> {
+                return "BDE";
+            }
+            case IndustrialsHalls -> {
+                return "Halles Industrielles";
+            }
+            case AdministrativeQuarter ->{
+                return "Quartier Administratif";
+            }
+        }
+        return "Reserviste";
+    }
 }
 

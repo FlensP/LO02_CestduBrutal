@@ -1,14 +1,16 @@
 package lo02.cestdubrutal.objects;
 
+import lo02.cestdubrutal.Main;
 import lo02.cestdubrutal.enums.Area;
 import lo02.cestdubrutal.enums.Strategy;
 
 import java.util.Comparator;
+import java.util.Random;
 
 public class Student {
 
     private Player player;
-    private int creditECTS;
+    private int creditECTS = 30;
     private int strength = 0;
     private int dexterity = 0;
     private int resistance = 0;
@@ -21,7 +23,19 @@ public class Student {
         setPlayer(player);
     }
 
-    public void attack() {
+    public void action() {
+        switch (getStrategy()) {
+            case Defensive -> heal();
+            case Offensive -> attack();
+            case Random -> {
+                if (new Random().nextBoolean()) {
+                    heal();
+                } else attack();
+            }
+        }
+    }
+
+    private void attack() {
 
         // élève ennemi à attaquer (avec le moins de point de vie)
         Student student = getArea().getStudents().stream()
@@ -36,12 +50,17 @@ public class Student {
         int damage = (int) (Math.floor(y * (1 + coef) * 10));
 
         // condition réussite attaque
-        if (x <= 40 + 3 * getDexterity()) student.setCreditECTS(Math.max(0, student.getCreditECTS() - damage));
+        if (x <= 40 + 3 * getDexterity()) {
+            student.setCreditECTS(Math.max(0, student.getCreditECTS() - damage));
+            Main.getInstance().getDisplay().displayMessage("Attaque reussi dans la zone " + area + " pour le joueur " + player.getProgram());
+        } else {
+            Main.getInstance().getDisplay().displayMessage("Attaque rate dans la zone " + area + " pour le joueur " + player.getProgram());
+        }
 
         if (student.getCreditECTS() == 0) student.kill();
     }
 
-    public void heal() {
+    private void heal() {
 
         // élève à soigner (avec le moins de points de vie)
         Student student = getArea().getStudents().stream()
@@ -55,15 +74,35 @@ public class Student {
         int care = (int) (Math.floor(y * (10 + getConstitution())));
 
         // condition réussite du soin
-        if (x <= 20 + 6 * getDexterity()) student.setCreditECTS(Math.min(student.getCreditECTS() + care, 30 + student.getConstitution()));
+        if (x <= 20 + 6 * getDexterity()) {
+            student.setCreditECTS(Math.min(student.getCreditECTS() + care, 30 + student.getConstitution()));
+            Main.getInstance().getDisplay().displayMessage("Heal reussi dans la zone " + area + " pour le joueur " + player.getProgram());
+        } else {
+            Main.getInstance().getDisplay().displayMessage("Heal rate dans la zone " + area + " pour le joueur " + player.getProgram());
+        }
 
     }
 
-    public void kill(){
+    public void kill() {
         getPlayer().removeStudent(this);
         getArea().removeStudent(this);
     }
 
+    @Override
+    public String toString() {
+
+        return "Etudiant du " +
+                "joueur=" + player.getProgram() +
+                ", stats=" + creditECTS +
+                "/" + strength +
+                "/" + dexterity +
+                "/" + resistance +
+                "/" + constitution +
+                "/" + initiative +
+                ", strategy=" + strategy +
+                " sur la zone :" + area +
+                '}';
+    }
 
     public Player getPlayer() {
         return player;

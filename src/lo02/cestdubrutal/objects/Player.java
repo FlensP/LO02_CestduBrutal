@@ -12,55 +12,65 @@ public class Player {
 
     private final Program program;
     private final ArrayList<Student> reservist = new ArrayList<>();
-    private int pointsLeft = 0;
+    private int pointsLeft = 400;
 
     public Player(Program program) {
         this.program = program;
     }
 
     public void studentSetting(Student student, ArrayList<Integer> pointsGiven) {
-        int sumPointsGiven = pointsGiven.stream().mapToInt(Integer::intValue).sum();
+        switch (pointsGiven.get(5)) {
+            case 1 -> student.setStrategy(Strategy.Offensive);
+            case 2 -> student.setStrategy(Strategy.Defensive);
+            case 3 -> student.setStrategy(Strategy.Random);
+        }
+        pointsGiven.remove(5);
+        int sumPointsGiven = 0;
+        for (Integer integer : pointsGiven) {
+            sumPointsGiven += integer;
+        }
         if (sumPointsGiven <= pointsLeft) {
-            Student stu = students.stream().filter(s -> s.equals(student)).toList().get(0); //pour être sur que l'élève est de notre équipe
-            stu.setStrength(stu.getStrength() + pointsGiven.get(0));
-            stu.setDexterity(stu.getDexterity() + pointsGiven.get(1));
-            stu.setResistance(stu.getResistance() + pointsGiven.get(2));
-            stu.setConstitution(stu.getConstitution() + pointsGiven.get(3));
-            stu.setInitiative(stu.getInitiative() + pointsGiven.get(4));
+            student.setStrength(student.getStrength() + pointsGiven.get(0));
+            student.setDexterity(student.getDexterity() + pointsGiven.get(1));
+            student.setResistance(student.getResistance() + pointsGiven.get(2));
+            student.setConstitution(student.getConstitution() + pointsGiven.get(3));
+            student.setInitiative(student.getInitiative() + pointsGiven.get(4));
             setPointsLeft(getPointsLeft() - sumPointsGiven);
         }
-        //todo voir si on peut pas rendre la fonction moins longue et comment généraliser à une liste
     }
 
     public void chooseAsReservist(Student student) {
-        if (reservist.size() != 5) {
+        if (reservist.size() < 5) {
             reservist.add(student);
         }
     }
 
-    public void allocateStrategy(Student student, Strategy strategy) {
-        Student stu = students.stream().filter(s -> equals(student)).toList().get(0);
-        stu.setStrategy(strategy);
-    }
-
     public void sendStudent(Student student, Area area) {
         if (!reservist.contains(student)) {
-            Student stu = students.stream().filter(s -> equals(student)).toList().get(0);
+            Student stu = students.stream().filter(s -> s.equals(student)).toList().get(0);
             stu.setArea(area);
             area.addStudent(student);
         }
     }
 
-    public void sendReservist(Student student){
+    public void sendReservist(Student student) {
         reservist.remove(student);
-        //todo forcer le player à au moins envoyer un reserviste
     }
 
-    public void resendStudent(Student student,Area area,Strategy strategy) {
-        if ((student.getArea().getStudents().size() >= 2) && (student.getArea().getController() != null)){
-            sendStudent(student,area);
+    public void resendStudent(Student student, Area area, Strategy strategy) {
+        if ((student.getArea().getStudents().size() >= 2) && (student.getArea().getController() != null)) {
+            sendStudent(student, area);
             student.setStrategy(strategy);
         } //sinon il ne peut pas renvoyer le student
+    }
+
+    public String getStudentsText(){
+        StringBuilder str = new StringBuilder("");
+        for (Student student : students){
+            str.append((students.indexOf(student) + 1) + " " );
+            str.append(student.toString() + "\n");
+        }
+        return str.toString();
     }
 
     public Program getProgram() {
@@ -87,4 +97,7 @@ public class Player {
         this.pointsLeft = pointsLeft;
     }
 
+    public ArrayList<Student> getReservist() {
+        return reservist;
+    }
 }

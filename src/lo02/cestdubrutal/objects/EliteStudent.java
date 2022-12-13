@@ -12,4 +12,20 @@ public class EliteStudent extends Student {
         setStrength(1);
     }
 
+    @Override
+    public String toString() {
+
+        return "Etudiant d'elite du " +
+                "joueur=" + getPlayer().getProgram() +
+                ", stats=" + getCreditECTS() +
+                "/" + getStrength() +
+                "/" + getDexterity() +
+                "/" +getResistance()+
+                "/" + getConstitution() +
+                "/" + getInitiative() +
+                ", strategy=" + getStrategy() +
+                " sur la zone :" + getArea() +
+                '}';
+    }
+
 }

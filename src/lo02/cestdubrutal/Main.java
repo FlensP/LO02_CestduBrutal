@@ -7,10 +7,12 @@ public class Main {
     private static Main instance;
     private Game game;
     private Display display;
+    private Ask ask;
 
     public static void main(String[] args) {
-        getInstance().setGame(new Game());
         getInstance().setDisplay(new TextDisplay());
+        getInstance().setAsk(new TextAsk());
+        getInstance().setGame(new Game());
     }
 
     private Main() {
@@ -38,5 +40,13 @@ public class Main {
 
     public Display getDisplay() {
         return display;
+    }
+
+    public void setAsk(Ask ask) {
+        this.ask = ask;
+    }
+
+    public Ask getAsk() {
+        return ask;
     }
 }
